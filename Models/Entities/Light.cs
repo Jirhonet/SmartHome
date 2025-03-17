@@ -2,7 +2,7 @@
 
 namespace SmartHome.Models
 {
-    public class Light : EntityModel, IDevice
+    public sealed class Light : EntityModel, IDevice
     {
         /// <inheritdoc />
         public string Name { get; set; }
