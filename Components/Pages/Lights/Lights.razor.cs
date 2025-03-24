@@ -38,7 +38,12 @@ namespace SmartHome.Components.Pages.Lights
 
         private void CreateNewLight()
         {
-            dialogLight = new Light { Name = string.Empty, Brightness = 100, IsOn = false };
+            dialogLight = new Light
+            {
+                Name = "New Light",
+                Brightness = 100,
+                IsOn = false
+            };
             showDialog = true;
         }
 

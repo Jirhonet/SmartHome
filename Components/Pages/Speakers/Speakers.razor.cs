@@ -39,7 +39,13 @@ public partial class Speakers
 
     private void CreateNewSpeaker()
     {
-        dialogSpeaker = new Speaker { Id = 0, Name = "", State = SpeakerState.Off, Volume = 50 };
+        // Set new speaker default values
+        dialogSpeaker = new Speaker
+        {
+            Name = "New Speaker",
+            State = SpeakerState.Off,
+            Volume = 50
+        };
         showDialog = true;
     }
 
