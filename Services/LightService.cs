@@ -12,7 +12,7 @@ namespace SmartHome.Services
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
-        public Task<IEnumerable<Light>> GetAsync(string search = null, CancellationToken ct = default)
+        public Task<List<Light>> GetAsync(string search = null, CancellationToken ct = default)
         {
             return repository.GetAsync(search, ct);
         }

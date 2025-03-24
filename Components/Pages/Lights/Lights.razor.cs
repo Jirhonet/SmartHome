@@ -9,7 +9,7 @@ namespace SmartHome.Components.Pages.Lights
         [Inject]
         private LightService LightService { get; set; }
 
-        private IEnumerable<Light> lights;
+        private List<Light> lights;
         private Light selectedLight;
         private string searchTerm;
         private bool showDialog;

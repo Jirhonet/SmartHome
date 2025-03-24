@@ -11,7 +11,7 @@ namespace SmartHome.Repositories
             //
         }
 
-        public async Task<IEnumerable<Light>> GetAsync(string search = null, CancellationToken ct = default)
+        public async Task<List<Light>> GetAsync(string search = null, CancellationToken ct = default)
         {
             const string sql =
                 """
