@@ -13,13 +13,13 @@ namespace SmartHome.Repositories
             this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
-        public SqlConnection GetConnection()
+        public async Task<SqlConnection> GetConnection(CancellationToken ct = default)
         {
             if (_connection == null || _connection.State != ConnectionState.Open)
             {
                 string connectionString = configuration.GetConnectionString("Default");
                 _connection = new SqlConnection(connectionString);
-                _connection.Open();
+                await _connection.OpenAsync(ct);
             }
 
             return _connection;
