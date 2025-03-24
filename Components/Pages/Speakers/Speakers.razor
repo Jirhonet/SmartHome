@@ -51,11 +51,20 @@ else
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">@speaker.Name</h5>
-                            <button class="btn @(speaker.State == SpeakerState.Playing ? "btn-primary" : "btn-outline-primary")"
-                                @onclick="@(() => ToggleSpeakerStateAsync(speaker.Id))" @onclick:preventDefault>
-                                <i
-                                    class="bi @(speaker.State == SpeakerState.Playing ? "bi-volume-up-fill" : "bi-volume-mute")"></i>
-                            </button>
+                            <div class="btn-group">
+                                <button class="btn @(speaker.State == SpeakerState.Off ? "btn-outline-primary" : "btn-primary")"
+                                    @onclick="@(() => ToggleSpeakerAsync(speaker.Id))" @onclick:preventDefault>
+                                    <i
+                                        class="bi @(speaker.State == SpeakerState.Off ? "bi-volume-mute" : "bi-volume-up-fill")"></i>
+                                </button>
+                                @if (speaker.State != SpeakerState.Off)
+                                {
+                                    <button class="btn @(speaker.State == SpeakerState.Playing ? "btn-primary" : "btn-outline-primary")" @onclick ="@(() => PlayPauseSpeakerAsync(speaker.Id))"
+                                        @onclick:preventDefault>
+                                        <i class="bi @(speaker.State == SpeakerState.Playing ? "bi-pause" : "bi-play")"></i>
+                                    </button>
+                                }
+                            </div>
                         </div>
                         <p class="card-text mt-2">
                             Status: @speaker.State<br />

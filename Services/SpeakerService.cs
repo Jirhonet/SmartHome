@@ -1,3 +1,4 @@
+using SmartHome.Enums;
 using SmartHome.Models;
 using SmartHome.Repositories;
 
@@ -35,9 +36,22 @@ namespace SmartHome.Services
         public async Task ToggleStateAsync(int id, CancellationToken ct = default)
         {
             Speaker speaker = await repository.GetByIdAsync(id, ct);
-
             if (speaker != null)
             {
+                speaker.State = speaker.State == SpeakerState.Off ? SpeakerState.On : SpeakerState.Off;
+                await repository.UpdateAsync(speaker, ct);
+            }
+        }
+
+        public async Task PlayPauseAsync(int id, CancellationToken ct = default)
+        {
+            Speaker speaker = await repository.GetByIdAsync(id, ct);
+            if (speaker != null)
+            {
+                if (speaker.State == SpeakerState.Off)
+                    return;
+
+                speaker.State = speaker.State == SpeakerState.Playing ? SpeakerState.Paused : SpeakerState.Playing;
                 await repository.UpdateAsync(speaker, ct);
             }
         }

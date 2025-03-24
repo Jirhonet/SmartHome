@@ -38,6 +38,7 @@ namespace SmartHome.Components.Pages.Lights
 
         private void CreateNewLight()
         {
+            // Set new light default values
             dialogLight = new Light
             {
                 Name = "New Light",

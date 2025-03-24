@@ -31,9 +31,15 @@ public partial class Speakers
         selectedSpeaker = speaker;
     }
 
-    private async Task ToggleSpeakerStateAsync(int id)
+    private async Task ToggleSpeakerAsync(int id)
     {
         await SpeakerService.ToggleStateAsync(id);
+        await LoadSpeakersAsync();
+    }
+
+    private async Task PlayPauseSpeakerAsync(int id)
+    {
+        await SpeakerService.PlayPauseAsync(id);
         await LoadSpeakersAsync();
     }
 
