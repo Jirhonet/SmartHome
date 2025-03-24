@@ -99,6 +99,18 @@ h1:focus {
   color: #e0e0e0;
 }
 
+.modal {
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    min-width: 500px;
+    margin: 1.75rem auto;
+  }
+}
+
 .modal-content {
   background-color: #2d2d2d;
   border-color: #404040;
