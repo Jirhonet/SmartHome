@@ -23,6 +23,7 @@ namespace SmartHome.Repositories
 
             await using SqlConnection connection = await DbContext.GetConnection(ct);
             using SqlCommand command = new SqlCommand(sql, connection);
+            search ??= string.Empty;
             command.Parameters.AddWithValue("@Search", search);
             using SqlDataReader reader = await command.ExecuteReaderAsync(ct);
             var lights = new List<Light>();
@@ -71,13 +72,29 @@ namespace SmartHome.Repositories
             throw new Exception("Light not found");
         }
 
+        public async Task InsertAsync(Light light, CancellationToken ct = default)
+        {
+            const string sql =
+                """
+                INSERT INTO Light (Name, IsOn, Brightness)
+                VALUES (@Name, @IsOn, @Brightness);
+                """;
+
+            await using SqlConnection connection = await DbContext.GetConnection(ct);
+            using SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@Name", light.Name);
+            command.Parameters.AddWithValue("@IsOn", light.IsOn);
+            command.Parameters.AddWithValue("@Brightness", light.Brightness);
+            await command.ExecuteNonQueryAsync(ct);
+        }
 
         public async Task UpdateAsync(Light light, CancellationToken ct = default)
         {
             const string sql =
                 """
                 UPDATE Light
-                SET IsOn = @IsOn,
+                SET [Name] = @Name,
+                    IsOn = @IsOn,
                     Brightness = @Brightness
                 WHERE Id = @Id
                 """;
@@ -85,8 +102,23 @@ namespace SmartHome.Repositories
             await using SqlConnection connection = await DbContext.GetConnection(ct);
             using SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@Id", light.Id);
+            command.Parameters.AddWithValue("@Name", light.Name);
             command.Parameters.AddWithValue("@IsOn", light.IsOn);
             command.Parameters.AddWithValue("@Brightness", light.Brightness);
+            await command.ExecuteNonQueryAsync(ct);
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        {
+            const string sql =
+                """
+                DELETE FROM Light
+                WHERE Id = @Id
+                """;
+
+            await using SqlConnection connection = await DbContext.GetConnection(ct);
+            using SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@Id", id);
             await command.ExecuteNonQueryAsync(ct);
         }
     }

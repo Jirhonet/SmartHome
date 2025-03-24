@@ -67,7 +67,6 @@ h1:focus {
   color: #b0b0b0;
 }
 
-/* Form Controls */
 .form-control {
   background-color: #2d2d2d;
   border-color: #404040;
@@ -97,6 +96,35 @@ h1:focus {
 
 .btn-outline-secondary:hover {
   background-color: #404040;
+  color: #e0e0e0;
+}
+
+.modal-content {
+  background-color: #2d2d2d;
+  border-color: #404040;
+}
+
+.modal-header {
+  border-bottom-color: #404040;
+}
+
+.modal-footer {
+  border-top-color: #404040;
+}
+
+.modal-title {
+  color: #e0e0e0;
+}
+
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.form-label {
+  color: #e0e0e0;
+}
+
+.form-check-label {
   color: #e0e0e0;
 }
 

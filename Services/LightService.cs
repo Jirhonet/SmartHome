@@ -17,6 +17,21 @@ namespace SmartHome.Services
             return repository.GetAsync(search, ct);
         }
 
+        public Task CreateAsync(Light light, CancellationToken ct = default)
+        {
+            return repository.InsertAsync(light, ct);
+        }
+
+        public Task UpdateAsync(Light light, CancellationToken ct = default)
+        {
+            return repository.UpdateAsync(light, ct);
+        }
+
+        public Task DeleteAsync(int id, CancellationToken ct = default)
+        {
+            return repository.DeleteAsync(id, ct);
+        }
+
         public async Task ToggleIsOnAsync(int id, CancellationToken ct = default)
         {
             Light light = await repository.GetByIdAsync(id, ct);

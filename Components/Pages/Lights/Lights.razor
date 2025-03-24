@@ -2,7 +2,6 @@
 @rendermode InteractiveServer
 @using SmartHome.Services
 @using SmartHome.Models
-@inject LightService LightService
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3>Lights</h3>
@@ -64,3 +63,6 @@ else
         }
     </div>
 }
+
+<LightDialog IsVisible="@showDialog" IsVisibleChanged="@(async (value) => showDialog = value)" Light="@dialogLight"
+    OnSave="@HandleLightSave" />

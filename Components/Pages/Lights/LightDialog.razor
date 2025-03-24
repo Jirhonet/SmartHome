@@ -1,0 +1,40 @@
+@using SmartHome.Models
+@using SmartHome.Services
+
+<div class="modal fade @(IsVisible ? "show" : "")" style="display: @(IsVisible ? "block" : "none")" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@(Light?.Id == 0 ? "New Light" : "Edit Light")</h5>
+                <button type="button" class="btn-close" @onclick="OnClose"></button>
+            </div>
+            <div class="modal-body">
+                @if (Light != null)
+                {
+                    <EditForm Model="@Light" OnValidSubmit="HandleSave">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <InputText id="name" class="form-control" @bind-Value="Light.Name" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="brightness" class="form-label">Brightness (%)</label>
+                            <InputNumber id="brightness" class="form-control" @bind-Value="Light.Brightness" min="0"
+                                max="100" />
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <InputCheckbox id="isOn" class="form-check-input" @bind-Value="Light.IsOn" />
+                                <label class="form-check-label" for="isOn">Turn on</label>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" @onclick="OnClose">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </EditForm>
+                }
+            </div>
+        </div>
+    </div>
+</div>
