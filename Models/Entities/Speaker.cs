@@ -1,6 +1,6 @@
 ﻿using SmartHome.Enums;
 
-namespace SmartHome.Models.Entities
+namespace SmartHome.Models
 {
     public sealed class Speaker : EntityModel, IDevice
     {

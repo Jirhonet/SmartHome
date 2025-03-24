@@ -22,12 +22,6 @@
                             <InputNumber id="brightness" class="form-control" @bind-Value="Light.Brightness" min="0"
                                 max="100" />
                         </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <InputCheckbox id="isOn" class="form-check-input" @bind-Value="Light.IsOn" />
-                                <label class="form-check-label" for="isOn">Turn on</label>
-                            </div>
-                        </div>
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" @onclick="OnClose">Cancel</button>
                             <button type="submit" class="btn btn-primary">Save</button>
