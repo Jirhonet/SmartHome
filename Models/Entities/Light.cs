@@ -19,5 +19,13 @@ namespace SmartHome.Models
         /// Percentage of how bright the light is.
         /// </summary>
         public int Brightness { get; set; }
+
+        /// <summary>
+        /// Toggles if the light is on or off.
+        /// </summary>
+        public void Toggle()
+        {
+            IsOn = !IsOn;
+        }
     }
 }

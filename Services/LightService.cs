@@ -38,7 +38,7 @@ namespace SmartHome.Services
 
             if (light != null)
             {
-                light.IsOn = !light.IsOn;
+                light.Toggle();
                 await repository.UpdateAsync(light, ct);
             }
         }

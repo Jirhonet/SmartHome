@@ -38,7 +38,7 @@ namespace SmartHome.Services
             Speaker speaker = await repository.GetByIdAsync(id, ct);
             if (speaker != null)
             {
-                speaker.State = speaker.State == SpeakerState.Off ? SpeakerState.On : SpeakerState.Off;
+                speaker.Toggle();
                 await repository.UpdateAsync(speaker, ct);
             }
         }
@@ -51,7 +51,7 @@ namespace SmartHome.Services
                 if (speaker.State == SpeakerState.Off)
                     return;
 
-                speaker.State = speaker.State == SpeakerState.Playing ? SpeakerState.Paused : SpeakerState.Playing;
+                speaker.PlayPause();
                 await repository.UpdateAsync(speaker, ct);
             }
         }

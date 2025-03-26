@@ -19,5 +19,25 @@ namespace SmartHome.Models
         /// Percentage of how loud the speaker is.
         /// </summary>
         public int Volume { get; set; }
+
+        /// <summary>
+        /// Toggles if the speaker is on or off.
+        /// </summary>
+        public void Toggle()
+        {
+            State = State == SpeakerState.Off
+                    ? SpeakerState.On
+                    : SpeakerState.Off;
+        }
+
+        /// <summary>
+        /// Plays or pauses the speaker.
+        /// </summary>
+        public void PlayPause()
+        {
+            State = State == SpeakerState.Playing
+                    ? SpeakerState.Paused
+                    : SpeakerState.Playing;
+        }
     }
 }
