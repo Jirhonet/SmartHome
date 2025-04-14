@@ -68,6 +68,34 @@ namespace SmartHome.Repositories
             throw new Exception("Speaker not found");
         }
 
+        public async Task<List<Speaker>> GetByRoomIdAsync(int roomId, CancellationToken ct = default)
+        {
+            const string sql =
+                """
+                SELECT
+                    s.*
+                FROM Speaker s
+                WHERE s.RoomId = @RoomId
+                """;
+
+            await using SqlConnection connection = await DbContext.GetConnection(ct);
+            using SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@RoomId", roomId);
+            using SqlDataReader reader = await command.ExecuteReaderAsync(ct);
+            var speakers = new List<Speaker>();
+            while (await reader.ReadAsync(ct))
+            {
+                speakers.Add(new Speaker
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    State = (SpeakerState)reader.GetInt32(reader.GetOrdinal("State")),
+                    Volume = reader.GetInt32(reader.GetOrdinal("Volume")),
+                });
+            }
+            return speakers;
+        }
+
         public async Task InsertAsync(Speaker speaker, CancellationToken ct = default)
         {
             const string sql =

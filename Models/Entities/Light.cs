@@ -23,9 +23,10 @@ namespace SmartHome.Models
         /// <summary>
         /// Toggles if the light is on or off.
         /// </summary>
-        public void Toggle()
+        public void Toggle(bool? isOn = null)
         {
-            IsOn = !IsOn;
+            isOn ??= !IsOn;
+            IsOn = isOn.Value;
         }
     }
 }

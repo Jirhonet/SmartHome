@@ -23,11 +23,13 @@ namespace SmartHome.Models
         /// <summary>
         /// Toggles if the speaker is on or off.
         /// </summary>
-        public void Toggle()
+        public void Toggle(SpeakerState? state = null)
         {
-            State = State == SpeakerState.Off
+            state ??= State == SpeakerState.Off
                     ? SpeakerState.On
                     : SpeakerState.Off;
+
+            State = state.Value;
         }
 
         /// <summary>

@@ -9,10 +9,12 @@ namespace SmartHome
         {
             // Repositories
             services.AddScoped<DbContext>();
+            services.AddScoped<RoomRepository>();
             services.AddScoped<LightRepository>();
             services.AddScoped<SpeakerRepository>();
 
             // Services
+            services.AddScoped<RoomService>();
             services.AddScoped<LightService>();
             services.AddScoped<SpeakerService>();
 

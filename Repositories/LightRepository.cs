@@ -50,11 +50,6 @@ namespace SmartHome.Repositories
                 WHERE l.Id = @Id
                 """;
 
-            var param = new
-            {
-                Id = id,
-            };
-
             await using SqlConnection connection = await DbContext.GetConnection(ct);
             using SqlCommand command = new SqlCommand(sql, connection);
             command.Parameters.AddWithValue("@Id", id);
@@ -70,6 +65,34 @@ namespace SmartHome.Repositories
                 };
             }
             throw new Exception("Light not found");
+        }
+
+        public async Task<List<Light>> GetByRoomIdAsync(int roomId, CancellationToken ct = default)
+        {
+            const string sql =
+                """
+                SELECT
+                    l.*
+                FROM Light l
+                WHERE l.RoomId = @RoomId
+                """;
+
+            await using SqlConnection connection = await DbContext.GetConnection(ct);
+            using SqlCommand command = new SqlCommand(sql, connection);
+            command.Parameters.AddWithValue("@RoomId", roomId);
+            using SqlDataReader reader = await command.ExecuteReaderAsync(ct);
+            var lights = new List<Light>();
+            while (await reader.ReadAsync(ct))
+            {
+                lights.Add(new Light
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                    Name = reader.GetString(reader.GetOrdinal("Name")),
+                    IsOn = reader.GetBoolean(reader.GetOrdinal("IsOn")),
+                    Brightness = reader.GetInt32(reader.GetOrdinal("Brightness")),
+                });
+            }
+            return lights;
         }
 
         public async Task InsertAsync(Light light, CancellationToken ct = default)
