@@ -16,8 +16,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    l.*
+                    l.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Light l
+                LEFT JOIN Room r ON r.Id = l.RoomId
                 WHERE l.[Name] LIKE '%' + @Search + '%'
                 """;
 
@@ -35,6 +38,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     IsOn = reader.GetBoolean(reader.GetOrdinal("IsOn")),
                     Brightness = reader.GetInt32(reader.GetOrdinal("Brightness")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 });
             }
             return lights;
@@ -45,8 +50,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    l.*
+                    l.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Light l
+                LEFT JOIN Room r ON r.Id = l.RoomId
                 WHERE l.Id = @Id
                 """;
 
@@ -62,6 +70,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     IsOn = reader.GetBoolean(reader.GetOrdinal("IsOn")),
                     Brightness = reader.GetInt32(reader.GetOrdinal("Brightness")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 };
             }
             throw new Exception("Light not found");
@@ -72,8 +82,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    l.*
+                    l.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Light l
+                LEFT JOIN Room r ON r.Id = l.RoomId
                 WHERE l.RoomId = @RoomId
                 """;
 
@@ -90,6 +103,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     IsOn = reader.GetBoolean(reader.GetOrdinal("IsOn")),
                     Brightness = reader.GetInt32(reader.GetOrdinal("Brightness")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 });
             }
             return lights;
@@ -99,8 +114,8 @@ namespace SmartHome.Repositories
         {
             const string sql =
                 """
-                INSERT INTO Light (Name, IsOn, Brightness)
-                VALUES (@Name, @IsOn, @Brightness);
+                INSERT INTO Light (Name, IsOn, Brightness, RoomId)
+                VALUES (@Name, @IsOn, @Brightness, @RoomId);
                 """;
 
             await using SqlConnection connection = await DbContext.GetConnection(ct);
@@ -108,6 +123,7 @@ namespace SmartHome.Repositories
             command.Parameters.AddWithValue("@Name", light.Name);
             command.Parameters.AddWithValue("@IsOn", light.IsOn);
             command.Parameters.AddWithValue("@Brightness", light.Brightness);
+            command.Parameters.AddWithValue("@RoomId", (object)light.RoomId ?? DBNull.Value);
             await command.ExecuteNonQueryAsync(ct);
         }
 
@@ -118,7 +134,8 @@ namespace SmartHome.Repositories
                 UPDATE Light
                 SET [Name] = @Name,
                     IsOn = @IsOn,
-                    Brightness = @Brightness
+                    Brightness = @Brightness,
+                    RoomId = @RoomId
                 WHERE Id = @Id
                 """;
 
@@ -128,6 +145,7 @@ namespace SmartHome.Repositories
             command.Parameters.AddWithValue("@Name", light.Name);
             command.Parameters.AddWithValue("@IsOn", light.IsOn);
             command.Parameters.AddWithValue("@Brightness", light.Brightness);
+            command.Parameters.AddWithValue("@RoomId", (object)light.RoomId ?? DBNull.Value);
             await command.ExecuteNonQueryAsync(ct);
         }
 

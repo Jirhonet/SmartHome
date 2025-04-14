@@ -12,10 +12,13 @@ public partial class LightDialog
     public EventCallback<bool> IsVisibleChanged { get; set; }
 
     [Parameter]
+    public Light Light { get; set; }
+
+    [Parameter]
     public EventCallback<Light> OnSave { get; set; }
 
     [Parameter]
-    public Light Light { get; set; } = new();
+    public List<Room> Rooms { get; set; } = new();
 
     private async Task OnClose()
     {
@@ -25,7 +28,10 @@ public partial class LightDialog
 
     private async Task HandleSave()
     {
-        await OnSave.InvokeAsync(Light);
-        await OnClose();
+        if (Light != null)
+        {
+            await OnSave.InvokeAsync(Light);
+            await OnClose();
+        }
     }
 }

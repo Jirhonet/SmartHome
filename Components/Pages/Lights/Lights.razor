@@ -56,6 +56,7 @@ else
                             </button>
                         </div>
                         <p class="card-text mt-2">
+                            @(light.RoomId.HasValue ? "Room: " + light.RoomName : string.Empty)<br />
                             Status: @(light.IsOn ? "On" : "Off")<br />
                             Brightness: @light.Brightness%
                         </p>
@@ -67,4 +68,4 @@ else
 }
 
 <LightDialog IsVisible="@showDialog" IsVisibleChanged="@(async (value) => showDialog = value)" Light="@dialogLight"
-    OnSave="@HandleLightSave" />
+    OnSave="@HandleLightSave" Rooms="@rooms" />

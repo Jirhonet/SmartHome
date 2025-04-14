@@ -10,7 +10,11 @@ public partial class Speakers
     [Inject]
     private SpeakerService SpeakerService { get; set; }
 
+    [Inject]
+    private RoomService RoomService { get; set; }
+
     private List<Speaker> speakers;
+    private List<Room> rooms;
     private Speaker selectedSpeaker;
     private string searchTerm;
     private bool showDialog;
@@ -19,6 +23,7 @@ public partial class Speakers
     protected override async Task OnInitializedAsync()
     {
         await LoadSpeakersAsync();
+        rooms = await RoomService.GetAsync();
     }
 
     private async Task LoadSpeakersAsync()

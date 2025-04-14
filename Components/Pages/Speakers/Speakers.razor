@@ -67,6 +67,7 @@ else
                             </div>
                         </div>
                         <p class="card-text mt-2">
+                            @(speaker.RoomId.HasValue ? "Room: " + speaker.RoomName : string.Empty)<br />
                             Status: @speaker.State<br />
                             Volume: @speaker.Volume%
                         </p>
@@ -78,4 +79,4 @@ else
 }
 
 <SpeakerDialog IsVisible="@showDialog" IsVisibleChanged="@(async (value) => showDialog = value)"
-    Speaker="@dialogSpeaker" OnSave="@HandleSpeakerSave" />
+    Speaker="@dialogSpeaker" OnSave="@HandleSpeakerSave" Rooms="@rooms" />

@@ -18,6 +18,7 @@ namespace SmartHome.Repositories
                 SELECT
                     r.*
                 FROM Room r
+                WHERE r.[Name] LIKE '%' + @Search + '%'
                 """;
 
             await using SqlConnection connection = await DbContext.GetConnection(ct);

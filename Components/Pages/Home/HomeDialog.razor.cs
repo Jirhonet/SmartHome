@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using SmartHome.Models;
 
-namespace SmartHome.Components.Pages.Speakers;
+namespace SmartHome.Components.Pages.Home;
 
-public partial class SpeakerDialog
+public partial class HomeDialog
 {
     [Parameter]
     public bool IsVisible { get; set; }
@@ -12,13 +12,10 @@ public partial class SpeakerDialog
     public EventCallback<bool> IsVisibleChanged { get; set; }
 
     [Parameter]
-    public EventCallback<Speaker> OnSave { get; set; }
+    public EventCallback<Room> OnSave { get; set; }
 
     [Parameter]
-    public Speaker Speaker { get; set; } = new();
-
-    [Parameter]
-    public List<Room> Rooms { get; set; } = new();
+    public Room Room { get; set; } = new();
 
     private async Task OnClose()
     {
@@ -28,7 +25,7 @@ public partial class SpeakerDialog
 
     private async Task HandleSave()
     {
-        await OnSave.InvokeAsync(Speaker);
+        await OnSave.InvokeAsync(Room);
         await OnClose();
     }
 }

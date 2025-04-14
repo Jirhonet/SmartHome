@@ -8,6 +8,12 @@ namespace SmartHome.Models
         public string Name { get; set; }
 
         /// <inheritdoc />
+        public int? RoomId { get; set; }
+
+        /// <inheritdoc />
+        public string RoomName { get; set; }
+
+        /// <inheritdoc />
         public DeviceType Type => DeviceType.Speaker;
 
         /// <summary>

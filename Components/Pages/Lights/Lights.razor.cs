@@ -9,7 +9,11 @@ namespace SmartHome.Components.Pages.Lights
         [Inject]
         private LightService LightService { get; set; }
 
+        [Inject]
+        private RoomService RoomService { get; set; }
+
         private List<Light> lights;
+        private List<Room> rooms;
         private Light selectedLight;
         private string searchTerm;
         private bool showDialog;
@@ -18,6 +22,7 @@ namespace SmartHome.Components.Pages.Lights
         protected override async Task OnInitializedAsync()
         {
             await LoadLightsAsync();
+            rooms = await RoomService.GetAsync();
         }
 
         private async Task LoadLightsAsync()

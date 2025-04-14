@@ -17,8 +17,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    s.*
+                    s.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Speaker s
+                LEFT JOIN Room r ON r.Id = s.RoomId
                 WHERE s.[Name] LIKE '%' + @Search + '%'
                 """;
 
@@ -36,6 +39,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     State = (SpeakerState)reader.GetInt32(reader.GetOrdinal("State")),
                     Volume = reader.GetInt32(reader.GetOrdinal("Volume")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 });
             }
             return speakers;
@@ -46,8 +51,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    s.*
+                    s.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Speaker s
+                LEFT JOIN Room r ON r.Id = s.RoomId
                 WHERE s.Id = @Id
                 """;
 
@@ -63,6 +71,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     State = (SpeakerState)reader.GetInt32(reader.GetOrdinal("State")),
                     Volume = reader.GetInt32(reader.GetOrdinal("Volume")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 };
             }
             throw new Exception("Speaker not found");
@@ -73,8 +83,11 @@ namespace SmartHome.Repositories
             const string sql =
                 """
                 SELECT
-                    s.*
+                    s.*,
+                    r.Id AS RoomId,
+                    r.[Name] AS RoomName
                 FROM Speaker s
+                LEFT JOIN Room r ON r.Id = s.RoomId
                 WHERE s.RoomId = @RoomId
                 """;
 
@@ -91,6 +104,8 @@ namespace SmartHome.Repositories
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     State = (SpeakerState)reader.GetInt32(reader.GetOrdinal("State")),
                     Volume = reader.GetInt32(reader.GetOrdinal("Volume")),
+                    RoomId = reader.IsDBNull(reader.GetOrdinal("RoomId")) ? null : reader.GetInt32(reader.GetOrdinal("RoomId")),
+                    RoomName = reader.IsDBNull(reader.GetOrdinal("RoomName")) ? null : reader.GetString(reader.GetOrdinal("RoomName")),
                 });
             }
             return speakers;
@@ -100,8 +115,8 @@ namespace SmartHome.Repositories
         {
             const string sql =
                 """
-                INSERT INTO Speaker (Name, State, Volume)
-                VALUES (@Name, @State, @Volume);
+                INSERT INTO Speaker (Name, State, Volume, RoomId)
+                VALUES (@Name, @State, @Volume, @RoomId);
                 """;
 
             await using SqlConnection connection = await DbContext.GetConnection(ct);
@@ -109,6 +124,7 @@ namespace SmartHome.Repositories
             command.Parameters.AddWithValue("@Name", speaker.Name);
             command.Parameters.AddWithValue("@State", speaker.State);
             command.Parameters.AddWithValue("@Volume", speaker.Volume);
+            command.Parameters.AddWithValue("@RoomId", (object)speaker.RoomId ?? DBNull.Value);
             await command.ExecuteNonQueryAsync(ct);
         }
 
@@ -119,7 +135,8 @@ namespace SmartHome.Repositories
                 UPDATE Speaker
                 SET [Name] = @Name,
                     State = @State,
-                    Volume = @Volume
+                    Volume = @Volume,
+                    RoomId = @RoomId
                 WHERE Id = @Id
                 """;
 
@@ -129,6 +146,7 @@ namespace SmartHome.Repositories
             command.Parameters.AddWithValue("@Name", speaker.Name);
             command.Parameters.AddWithValue("@State", speaker.State);
             command.Parameters.AddWithValue("@Volume", speaker.Volume);
+            command.Parameters.AddWithValue("@RoomId", (object)speaker.RoomId ?? DBNull.Value);
             await command.ExecuteNonQueryAsync(ct);
         }
 

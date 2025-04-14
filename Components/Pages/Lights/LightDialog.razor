@@ -11,7 +11,7 @@
             <div class="modal-body">
                 @if (Light != null)
                 {
-                    <EditForm Model="@Light" OnValidSubmit="HandleSave">
+                    <EditForm Model="@Light" OnValidSubmit="@HandleSave">
                         <DataAnnotationsValidator />
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -21,6 +21,16 @@
                             <label for="brightness" class="form-label">Brightness (%)</label>
                             <InputNumber id="brightness" class="form-control" @bind-Value="Light.Brightness" min="0"
                                 max="100" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="roomId" class="form-label">Room</label>
+                            <InputSelect id="roomId" class="form-select" @bind-Value="Light.RoomId">
+                                <option value="">No Room</option>
+                                @foreach (var room in Rooms)
+                                {
+                                    <option value="@room.Id">@room.Name</option>
+                                }
+                            </InputSelect>
                         </div>
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" @onclick="OnClose">Cancel</button>
